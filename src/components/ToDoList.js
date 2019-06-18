@@ -5,7 +5,6 @@ const ToDoList = () => {
     return(
         <ul className="todo-list">
             <ToDoItem />
-            <ToDoItem />
         </ul>
     );
 };

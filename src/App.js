@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import NewToDo from './components/NewToDo';
 import ToDoList from './components/ToDoList';
+import Footer from './components/Footer';
 
 class App extends Component {
   
@@ -14,6 +15,7 @@ class App extends Component {
           <NewToDo />
           <ToDoList />
         </section>
+        <Footer />
       </section>
     );
   };

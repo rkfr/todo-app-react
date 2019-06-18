@@ -142,3 +142,48 @@ li {
     font-size: 30px;
     transition: color 0.2s ease-out;
 }
+
+/* footer */
+
+.footer {
+    padding: 10px 0;
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #ededed;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 
+                0 25px 50px 0 rgba(0, 0, 0, 0.1);
+}
+
+.todo__filters {
+    display: flex;
+    justify-content: center;
+}
+
+.todo__filter-item {
+    padding: 3px 7px;
+    margin: 0 3px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+
+.todo__filter-item:hover {
+    border-color: rgba(175, 47, 47, 0.1);
+    cursor: pointer;
+}
+
+.selected,
+.todo__filter-item.selected:hover {
+    border-color: rgba(175, 47, 47, 0.2);
+}
+
+.todo__count,
+.todo__filter-item {
+    color: #777;
+}
+
+.todo__count {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+}
