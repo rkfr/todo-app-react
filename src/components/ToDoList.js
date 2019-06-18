@@ -1,10 +1,20 @@
 import React from 'react';
 import ToDoItem from './ToDoItem';
 
-const ToDoList = () => {
+const ToDoList = props => {
+    const {tasks, removeTask, statusHandler} = props;
+
     return(
         <ul className="todo-list">
-            <ToDoItem />
+            {tasks.map((task, idx) => (
+                <ToDoItem 
+                    task={task} 
+                    key={idx}
+                    taskId={idx}
+                    removeTask={removeTask}
+                    statusHandler={statusHandler}
+                />
+            ))}
         </ul>
     );
 };

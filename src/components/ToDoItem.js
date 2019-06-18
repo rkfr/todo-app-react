@@ -1,16 +1,31 @@
 import React from 'react';
 
-const ToDoItem = () => (
+const ToDoItem = ({
+                task,
+                removeTask,
+                taskId,
+                statusHandler
+            }) => {
+
+    const {status, text} = task,
+        taskClassName = status ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text_active';
+        console.log(task);
+    return(
     <li className="todo-list__item">
         <div className="todo-list__content">
             <input 
                 type="checkbox"
                 className="todo-list__checkbox"
+                onClick={() => statusHandler(taskId)}
             />
-            <label className="todo-list__task-text">task 1</label>
-            <button className="remove">×</button>
+            <label className={taskClassName}>{text}</label>
+            <button 
+                className="remove"
+                onClick={() => removeTask(taskId)}
+            >×</button>
         </div>
     </li>
-);
+    )
+};
 
 export default ToDoItem;

@@ -105,6 +105,9 @@ li {
     background: url(img/unchecked.svg) 0 45% no-repeat;
 }
 
+.todo-list__task-text_active {
+    text-decoration: line-through;
+}
 
 .todo-list__checkbox:checked + .todo-list__task-text {
     background: url(img/checked.svg) 0 45% no-repeat;
