@@ -8,8 +8,7 @@ const ToDoItem = ({
             }) => {
 
     const {status, text} = task,
-        taskClassName = status ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text_active';
-        console.log(task);
+        taskClassName = status ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text--completed';
     return(
     <li className="todo-list__item">
         <div className="todo-list__content">

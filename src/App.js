@@ -8,7 +8,8 @@ import Footer from './components/Footer';
 class App extends Component {
   
   state = {
-    tasks: []
+    tasks: [],
+    showMode: 'all'
   }
 
   addTask = task => {
@@ -44,8 +45,11 @@ class App extends Component {
     });
   };
 
+  modeHandler = (showMode) => this.setState({ showMode });
+
   render() {
-    const {tasks} = this.state;
+    const {tasks, showMode} = this.state,
+      items = tasks.length;
     
     return (
       <section className="todo-app">
@@ -60,7 +64,11 @@ class App extends Component {
             statusHandler={this.statusHandler}
           />
         </section>
-        <Footer />
+        <Footer 
+          modeHandler={this.modeHandler}
+          showMode={showMode}
+          items={items}
+        />
       </section>
     );
   };

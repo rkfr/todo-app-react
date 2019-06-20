@@ -1,13 +1,40 @@
 import React from 'react';
 
-const Footer = () => {
+const sortButtons = ['All', 'Active', 'Completed'];
+
+const Footer = ({
+                modeHandler,
+                showMode,
+                items
+            }) => {
+
+    const getClassName = buttonName => (
+        (buttonName.toLowerCase() === showMode)
+                    ? 
+                    'todo__filter-item selected'
+                    : 
+                    'todo__filter-item'
+    );
+
+    const itemsInfo = ((items === 1) && `${items} item left`) || `${items} items left`;
+
+    
     return(
         <footer className="footer">
-            <span className="todo__count">1 item left</span>
+            {(items > 0) && 
+                <span className="todo__count">{itemsInfo}</span>
+            }
+            
             <ul className="todo__filters">
-                <li className="todo__filter-item selected">All</li>
-                <li className="todo__filter-item">Active</li>
-                <li className="todo__filter-item">Completed</li>
+                {sortButtons.map((button, key) => (
+                    <li 
+                        key={`${button}${key}`}
+                        className={getClassName(button)}
+                        onClick={() => modeHandler(button.toLowerCase())}
+                    >
+                        {button}
+                    </li>
+                ))}
             </ul>
         </footer>
     );
