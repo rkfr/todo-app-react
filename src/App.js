@@ -67,10 +67,33 @@ class App extends Component {
     localStorage.setItem('showMode', showMode);
   };
 
+  markHandler = () => {
+    const {tasks} = this.state,
+      isActive = tasks.some(task => task.status === 'active');
+
+    if (isActive) {
+      tasks.forEach(task => (task.status = 'completed', task));
+    }
+    else {
+      tasks.forEach(task => (task.status = 'active', task));
+    }
+
+    this.setState({tasks});
+  }
+
+  removeTasks = () => {
+    const {tasks} = this.state;
+
+    this.setState({
+      tasks: tasks.filter(task => task.status !== 'completed')
+    });
+  }
+
   render() {
     const {tasks, showMode} = this.state,
-      items = tasks.filter(task => task.status.toLowerCase() === 'active').length;
-
+      activeItemsCount = tasks.filter(task => task.status === 'active').length,
+      isAreAnyCompleted = tasks.some(task => task.status === 'completed'),
+      tasksLength = tasks.length;
 
     return (
       <section className="todo-app">
@@ -78,8 +101,9 @@ class App extends Component {
         <section className="main">
           <NewToDo
             addTask={this.addTask}
-            items={items}
+            tasksLength={tasksLength}
             tasksLength={tasks.length}
+            markHandler={this.markHandler}
           />
           <ToDoList
             tasks={tasks}
@@ -88,11 +112,13 @@ class App extends Component {
             showMode={showMode}
           />
         </section>
-        {(!!items || !!tasks.length) && 
+        {(!!activeItemsCount || !!tasks.length) && 
         <Footer 
           modeHandler={this.modeHandler}
           showMode={showMode}
-          items={items}
+          items={activeItemsCount}
+          removeTasks={this.removeTasks}
+          isAreAnyCompleted={isAreAnyCompleted}
         />
         }
       </section>

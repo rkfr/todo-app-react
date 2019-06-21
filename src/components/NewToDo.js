@@ -22,10 +22,7 @@ export default class NewToDo extends Component {
     keyPressHandler = e => {
         const {addTask} = this.props,
             {currentTask} = this.state,
-            {key} = e;
-
-        console.log(this.state);
-        
+            {key} = e;  
 
         if (key === 'Enter') {
             e.preventDefault();
@@ -41,22 +38,22 @@ export default class NewToDo extends Component {
 
     render() {
         const {text} = this.state.currentTask,
-            {items} = this.props;
+            {tasksLength} = this.props;
 
         return (
             <div className="new-todo">
                 <form>
-                    {!!items &&
+                    {!!tasksLength &&
                     <label className="new-todo__label new-todo__label_button">
                         <input
                             className="new-todo__item new-todo__item_button"
                             type="button"
                             value=""
-                            onKeyPress={e => e.preventDefault()}
+                            onClick={this.props.markHandler}
                         />
                     </label>
                     }
-                    <label className={`new-todo__label ${!items && 'empty-list'}`}>
+                    <label className={`new-todo__label ${!tasksLength && 'empty-list'}`}>
                         <input 
                             className="new-todo__item new-todo__item_input"
                             type="text"

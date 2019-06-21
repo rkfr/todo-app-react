@@ -185,13 +185,28 @@ li {
 }
 
 .todo__count,
-.todo__filter-item {
+.todo__filter-item,
+.clear-button {
     color: #777;
 }
 
-.todo__count {
+.todo__count,
+.clear-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.todo__count {
     left: 15px;
+}
+
+.clear-button {
+    right: 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.clear-button:hover {
+    text-decoration: underline;
 }

@@ -5,7 +5,9 @@ const sortButtons = ['All', 'Active', 'Completed'];
 const Footer = ({
                 modeHandler,
                 showMode,
-                items
+                items,
+                removeTasks,
+                isAreAnyCompleted
             }) => {
 
     const getClassName = buttonName => (
@@ -17,7 +19,7 @@ const Footer = ({
     );
 
     const itemsInfo = ((items === 1) && `${items} item left`) || `${items} items left`;
-
+    
     
     return(
         <footer className="footer">
@@ -33,6 +35,9 @@ const Footer = ({
                     </li>
                 ))}
             </ul>
+            {isAreAnyCompleted &&
+                <span className="clear-button" onClick={removeTasks}>Clear completed</span>
+            }
         </footer>
     );
 };
