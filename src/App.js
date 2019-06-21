@@ -82,16 +82,18 @@ class App extends Component {
   }
 
   removeTasks = () => {
-    const {tasks} = this.state;
+    const {tasks} = this.state,
+      activeTasks = tasks.filter(task => task.status !== 'completed');
 
     this.setState({
-      tasks: tasks.filter(task => task.status !== 'completed')
+      tasks: activeTasks
     });
   }
 
   render() {
     const {tasks, showMode} = this.state,
-      activeItemsCount = tasks.filter(task => task.status === 'active').length,
+      activeItems = tasks.filter(task => task.status === 'active'),
+      activeItemsCount = activeItems.length,
       isAreAnyCompleted = tasks.some(task => task.status === 'completed'),
       tasksLength = tasks.length;
 
