@@ -58,7 +58,7 @@ class App extends Component {
     });
   };
 
-  modeHandler = (showMode) => this.setState({ showMode });
+  modeHandler = showMode => this.setState({ showMode });
 
   localStorageHandler = () => {
     const {tasks, showMode} = this.state;
@@ -72,10 +72,10 @@ class App extends Component {
       isActive = tasks.some(task => task.status === 'active');
 
     if (isActive) {
-      tasks.forEach(task => (task.status = 'completed', task));
+      tasks.forEach(task => ((task.status = 'completed'), task));
     }
     else {
-      tasks.forEach(task => (task.status = 'active', task));
+      tasks.forEach(task => ((task.status = 'active'), task));
     }
 
     this.setState({tasks});
@@ -102,7 +102,6 @@ class App extends Component {
           <NewToDo
             addTask={this.addTask}
             tasksLength={tasksLength}
-            tasksLength={tasks.length}
             markHandler={this.markHandler}
           />
           <ToDoList
@@ -112,7 +111,7 @@ class App extends Component {
             showMode={showMode}
           />
         </section>
-        {(!!activeItemsCount || !!tasks.length) && 
+        {(!!activeItemsCount || !!tasksLength) && 
         <Footer 
           modeHandler={this.modeHandler}
           showMode={showMode}
