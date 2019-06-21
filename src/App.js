@@ -12,6 +12,19 @@ class App extends Component {
     showMode: 'all'
   }
 
+  componentDidMount() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')),
+    showMode = localStorage.getItem('showMode');
+    
+    this.setState({ tasks, showMode });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      this.localStorageHandler();
+    }
+  }
+
   addTask = task => {
     const {tasks} = this.state;
     tasks.push(task);
@@ -46,6 +59,13 @@ class App extends Component {
   };
 
   modeHandler = (showMode) => this.setState({ showMode });
+
+  localStorageHandler = () => {
+    const {tasks, showMode} = this.state;
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('showMode', showMode);
+  };
 
   render() {
     const {tasks, showMode} = this.state,

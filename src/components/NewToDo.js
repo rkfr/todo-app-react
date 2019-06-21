@@ -24,6 +24,9 @@ export default class NewToDo extends Component {
             {currentTask} = this.state,
             {key} = e;
 
+        console.log(this.state);
+        
+
         if (key === 'Enter') {
             e.preventDefault();
             addTask(currentTask);
@@ -38,7 +41,7 @@ export default class NewToDo extends Component {
 
     render() {
         const {text} = this.state.currentTask,
-            {items,} = this.props;
+            {items} = this.props;
 
         return (
             <div className="new-todo">
