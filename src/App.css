@@ -58,6 +58,10 @@ li {
     padding: 16px;
 }
 
+.new-todo__label.empty-list {
+    margin-left: 45px;
+}
+
 .new-todo__item {
     display: block;
     height: 100%;

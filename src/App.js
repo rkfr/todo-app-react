@@ -19,25 +19,25 @@ class App extends Component {
     this.setState({ tasks });
   };
 
-  removeTask = taskIdx => {
-    const {tasks: newTasks} = this.state;
-    newTasks.splice(taskIdx, 1);
-
+  removeTask = taskId => {
+    const {tasks} = this.state,
+      newTasks = tasks.filter(task => task.id !== taskId);
+    
+    
     this.setState({
       tasks: newTasks
     });
   };
 
-  statusHandler = taskIdx => {
+  statusHandler = taskId => {
     const {tasks} = this.state,
-      newTasks = tasks.map((task, idx) => {
-      const currentTask = task;
+      newTasks = tasks.map(task => {
 
-      if (taskIdx === idx) {
-        currentTask.status = !currentTask.status;
+      if (taskId === task.id) {
+        (task.status === 'completed') ? task.status = 'active': task.status = 'completed';
       }
 
-      return currentTask;
+      return task;
     });
 
     this.setState({
@@ -49,26 +49,32 @@ class App extends Component {
 
   render() {
     const {tasks, showMode} = this.state,
-      items = tasks.length;
-    
+      items = tasks.filter(task => task.status.toLowerCase() === 'active').length;
+
+
     return (
       <section className="todo-app">
         <Header />
         <section className="main">
           <NewToDo
             addTask={this.addTask}
+            items={items}
+            tasksLength={tasks.length}
           />
           <ToDoList
             tasks={tasks}
             removeTask={this.removeTask}
             statusHandler={this.statusHandler}
+            showMode={showMode}
           />
         </section>
+        {(!!items || !!tasks.length) && 
         <Footer 
           modeHandler={this.modeHandler}
           showMode={showMode}
           items={items}
         />
+        }
       </section>
     );
   };

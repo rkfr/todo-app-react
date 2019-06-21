@@ -21,10 +21,7 @@ const Footer = ({
     
     return(
         <footer className="footer">
-            {(items > 0) && 
-                <span className="todo__count">{itemsInfo}</span>
-            }
-            
+            <span className="todo__count">{itemsInfo}</span>
             <ul className="todo__filters">
                 {sortButtons.map((button, key) => (
                     <li 

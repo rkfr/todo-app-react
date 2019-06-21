@@ -2,15 +2,17 @@ import React from 'react';
 import ToDoItem from './ToDoItem';
 
 const ToDoList = props => {
-    const {tasks, removeTask, statusHandler} = props;
+    const {tasks, removeTask, statusHandler, showMode} = props,
+        tasksToShow = showMode === 'all' ? tasks : tasks.filter(task => task.status.toLowerCase() === showMode);
 
     return(
         <ul className="todo-list">
-            {tasks.map((task, idx) => (
+            {tasksToShow.map((task, idx) => (
+
                 <ToDoItem 
                     task={task} 
-                    key={idx}
-                    taskId={idx}
+                    key={`${idx}${task}`}
+                    taskId={task.id}
                     removeTask={removeTask}
                     statusHandler={statusHandler}
                 />

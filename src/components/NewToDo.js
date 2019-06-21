@@ -8,10 +8,13 @@ export default class NewToDo extends Component {
     }
 
     taskHandler = ({target}) => {
+        const {tasksLength} = this.props;
+
         this.setState({
             currentTask: {
                 status: 'active',
-                text: target.value
+                text: target.value,
+                id: tasksLength
             }
         })
     }
@@ -34,11 +37,13 @@ export default class NewToDo extends Component {
     }
 
     render() {
-        const {text} = this.state.currentTask;
+        const {text} = this.state.currentTask,
+            {items,} = this.props;
 
         return (
             <div className="new-todo">
                 <form>
+                    {!!items &&
                     <label className="new-todo__label new-todo__label_button">
                         <input
                             className="new-todo__item new-todo__item_button"
@@ -47,7 +52,8 @@ export default class NewToDo extends Component {
                             onKeyPress={e => e.preventDefault()}
                         />
                     </label>
-                    <label className="new-todo__label">
+                    }
+                    <label className={`new-todo__label ${!items && 'empty-list'}`}>
                         <input 
                             className="new-todo__item new-todo__item_input"
                             type="text"
