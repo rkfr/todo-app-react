@@ -7,11 +7,7 @@ const ToDoList = props => {
 
 
     const editTask = (task, id) => {
-        console.log(task, id);
         // updateTasks
-        return (
-            <div>qq</div>
-        );
     }
 
     return(
@@ -20,7 +16,7 @@ const ToDoList = props => {
 
                 <ToDoItem 
                     task={task} 
-                    key={`${idx}${task}`}
+                    key={`${idx}${task.text}`}
                     taskId={task.id}
                     removeTask={removeTask}
                     statusHandler={statusHandler}
