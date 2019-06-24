@@ -15,8 +15,9 @@ class App extends Component {
   componentDidMount() {
     const tasks = JSON.parse(localStorage.getItem('tasks')),
     showMode = localStorage.getItem('showMode');
-    
-    this.setState({ tasks, showMode });
+    if (tasks) {
+      this.setState({ tasks, showMode });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -90,13 +91,23 @@ class App extends Component {
     });
   }
 
+  updateTasks = tasks => this.setState({ tasks });
+
+  getActiveItems = () => {
+    const {tasks} = this.state;
+    if (tasks.length) {
+      return tasks.filter(task => task.status === 'active');
+    }
+    return [];
+  };
+
   render() {
     const {tasks, showMode} = this.state,
-      activeItems = tasks.filter(task => task.status === 'active'),
-      activeItemsCount = activeItems.length,
-      isAreAnyCompleted = tasks.some(task => task.status === 'completed'),
-      tasksLength = tasks.length;
-
+      activeItems = this.getActiveItems(),
+      activeItemsCount = (activeItems && activeItems.length) || 0,
+      isAreAnyCompleted =(tasks && tasks.some(task => task.status === 'completed')) || false,
+      tasksLength = (tasks && tasks.length) || 0;
+    
     return (
       <section className="todo-app">
         <Header />
@@ -106,12 +117,15 @@ class App extends Component {
             tasksLength={tasksLength}
             markHandler={this.markHandler}
           />
+          {tasks &&
           <ToDoList
             tasks={tasks}
             removeTask={this.removeTask}
             statusHandler={this.statusHandler}
             showMode={showMode}
+            updateTasks={this.updateTasks}
           />
+          }
         </section>
         {(!!activeItemsCount || !!tasksLength) && 
         <Footer 

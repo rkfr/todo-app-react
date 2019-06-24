@@ -4,14 +4,20 @@ const ToDoItem = ({
                 task,
                 removeTask,
                 taskId,
-                statusHandler
+                statusHandler,
+                editTask
             }) => {
 
     const {status, text} = task,
         taskClassName = (status === 'active') ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text--completed';
     
     return(
-    <li className="todo-list__item">
+    <li 
+        className="todo-list__item"
+        onDoubleClick={() => {
+            editTask(task, taskId);
+        }}
+    >
         <div className="todo-list__content">
             <input 
                 type="checkbox"
