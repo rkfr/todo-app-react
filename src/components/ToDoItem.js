@@ -23,6 +23,23 @@ export default class ToDoItem extends React.Component {
         }
     }
 
+    editTask = ({target}) => {
+
+        this.setState({ 
+            taskData: target.value
+        });
+    }
+
+    closeEdit = ({key}) => {
+        const {editing} = this.state;
+
+        if (key === 'Enter') {
+            this.setState({ 
+                editing: !editing
+            }); 
+        }
+    }
+
     showDefaultTask = () => {
         const {task, taskId, statusHandler, removeTask} = this.props,
         {status, text} = task,
@@ -35,7 +52,9 @@ export default class ToDoItem extends React.Component {
                     className="todo-list__checkbox"
                     onClick={() => statusHandler(taskId)}
                 />
-                <label className={taskClassName}>{text}</label>
+                <label className={taskClassName}>
+                    <span onDoubleClick={this.editingTaskHandler}>{text}</span>
+                </label>
                 <button 
                     className="remove"
                     onClick={() => removeTask(taskId)}
@@ -44,14 +63,7 @@ export default class ToDoItem extends React.Component {
         );
     };
 
-    editTask = ({target}) => {
-
-        this.setState({ 
-            taskData: target.value
-        });
-    }
-
-    editingTask = () => {
+    showEditingTask = () => {
         const {taskData} = this.state;
 
         return (
@@ -60,26 +72,27 @@ export default class ToDoItem extends React.Component {
                     type="text"
                     className="todo-item__editing"
                     onChange={this.editTask}
+                    onKeyPress={this.closeEdit}
                     value={taskData}
                 />
             </label>
         );
     };
-    
-    render() {
+
+    editingTaskHandler = () => {
         const { task, taskId, editTask } = this.props,
             {editing} = this.state;
 
-        return(
-            <li 
-                className="todo-list__item"
-                onDoubleClick={() => {
+        this.setState({editing: !editing})
+        editTask(task, taskId);
+    }
+    
+    render() {
+        const {editing} = this.state;
 
-                    this.setState({editing: !editing})
-                    editTask(task, taskId);
-                }}
-            >
-                {!editing ? this.showDefaultTask() : this.editingTask()}
+        return(
+            <li className="todo-list__item">
+                {!editing ? this.showDefaultTask() : this.showEditingTask()}
             </li>
         );
     };

@@ -14,7 +14,7 @@ export default class NewToDo extends Component {
             currentTask: {
                 status: 'active',
                 text: target.value,
-                id: tasksLength
+                id: `${tasksLength}${Date.now()}`
             }
         })
     }

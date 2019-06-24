@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Noto Sans HK', sans-serif;
 }
 
 li {
@@ -105,7 +106,7 @@ li {
 }
 
 .todo-list__task-text {
-    padding: 15px 15px 15px 60px;
+    padding: 0px 15px 0px 60px;
     font-weight: 300;
     background: url(img/unchecked.svg) 0 45% no-repeat;
 }
@@ -117,6 +118,12 @@ li {
 
 .todo-list__task-text--completed {
     background: url(img/checked.svg) 0 45% no-repeat;
+}
+
+.todo-list__task-text span {
+    display: block;
+    padding: 15px 0;
+    border: 1px solid transparent;
 }
 
 .todo-list__content:hover .remove,
@@ -219,4 +226,7 @@ li {
     margin-left: 45px;
     border: 1px solid  #000;
     font-size: 24px;
+    font-weight: 300;
+    color: rgb(77, 77, 77);
+    font-family: 'Noto Sans HK', sans-serif;
 }
