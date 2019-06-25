@@ -20,12 +20,12 @@ export default class ToDoItem extends React.Component {
 
     editingHandler = () => {
         const {editing} = this.state;
-
+        
         this.setState({ editing: !editing })
         if (editing) {     
             const {updateEditedTasks, taskId} = this.props,
                 {edtingTaskText} = this.state;
-            
+
             updateEditedTasks(edtingTaskText, taskId);
         }
     };
@@ -42,7 +42,7 @@ export default class ToDoItem extends React.Component {
         const {task, taskId, statusHandler, removeTask} = this.props,
             {status, text} = task,
             taskClassName = (status === 'active') ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text--completed';
-
+            
         return (
             <div className="todo-list__content">
                 <input 
@@ -70,6 +70,7 @@ export default class ToDoItem extends React.Component {
                     onChange={({target}) => this.setState({ edtingTaskText: target.value })}
                     onKeyPress={this.closeEdit}
                     value={this.state.edtingTaskText}
+                    ref={input => input && input.focus()}
                 />
             </label>
         );

@@ -22,7 +22,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
-      this.localStorageHandler();
+      this.setDataToLocalStorage();
     }
   }
 
@@ -61,7 +61,7 @@ class App extends Component {
 
   modeHandler = showMode => this.setState({ showMode });
 
-  localStorageHandler = () => {
+  setDataToLocalStorage = () => {
     const {tasks, showMode} = this.state;
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
