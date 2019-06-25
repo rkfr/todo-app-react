@@ -2,13 +2,8 @@ import React from 'react';
 import ToDoItem from './ToDoItem';
 
 const ToDoList = props => {
-    const {tasks, removeTask, statusHandler, showMode, updateTasks} = props,
+    const { tasks, removeTask, statusHandler, showMode, updateEditedTasks } = props,
         tasksToShow = showMode === 'all' ? tasks : tasks.filter(task => task.status.toLowerCase() === showMode);
-
-
-    const editTask = (task, id) => {
-        // updateTasks
-    }
 
     return(
         <ul className="todo-list">
@@ -20,7 +15,7 @@ const ToDoList = props => {
                     taskId={task.id}
                     removeTask={removeTask}
                     statusHandler={statusHandler}
-                    editTask={editTask}
+                    updateEditedTasks={updateEditedTasks}
                 />
             ))}
         </ul>

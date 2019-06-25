@@ -91,7 +91,16 @@ class App extends Component {
     });
   }
 
-  updateTasks = tasks => this.setState({ tasks });
+  updateEditedTasks = (newText, id) => {
+    const {tasks} = this.state;
+    tasks.forEach(task => {
+      if (task.id === id) {
+        task.text = newText;
+      }
+    });
+
+    this.setState( {tasks} );
+  }
 
   getActiveItems = () => {
     const {tasks} = this.state;
@@ -107,7 +116,7 @@ class App extends Component {
       activeItemsCount = (activeItems && activeItems.length) || 0,
       isAreAnyCompleted =(tasks && tasks.some(task => task.status === 'completed')) || false,
       tasksLength = (tasks && tasks.length) || 0;
-    
+      
     return (
       <section className="todo-app">
         <Header />
@@ -123,7 +132,7 @@ class App extends Component {
             removeTask={this.removeTask}
             statusHandler={this.statusHandler}
             showMode={showMode}
-            updateTasks={this.updateTasks}
+            updateEditedTasks={this.updateEditedTasks}
           />
           }
         </section>

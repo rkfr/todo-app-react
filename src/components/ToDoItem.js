@@ -4,7 +4,7 @@ export default class ToDoItem extends React.Component {
 
     state = {
         editing: false,
-        taskData: this.props.task.text
+        edtingTaskText: ''
     }
 
     componentWillUnmount() {
@@ -13,37 +13,35 @@ export default class ToDoItem extends React.Component {
 
     componentWillMount() {
         document.addEventListener('click', this.handleClickOutside);
-    }
-
-    handleClickOutside = ({target}) => {
-        const {editing} = this.state;
-
-        if (editing && !target.classList.contains('todo-item__editing')) {
-            this.setState({ editing: !editing });
-        }
-    }
-
-    editTask = ({target}) => {
-
-        this.setState({ 
-            taskData: target.value
+        this.setState({
+            edtingTaskText: this.props.task.text
         });
     }
 
-    closeEdit = ({key}) => {
+    editingHandler = () => {
         const {editing} = this.state;
 
-        if (key === 'Enter') {
-            this.setState({ 
-                editing: !editing
-            }); 
+        this.setState({ editing: !editing })
+        if (editing) {     
+            const {updateEditedTasks, taskId} = this.props,
+                {edtingTaskText} = this.state;
+            
+            updateEditedTasks(edtingTaskText, taskId);
+        }
+    };
+
+    handleClickOutside = ({target}) => {
+        if (this.state.editing && !target.classList.contains('todo-item__editing')) {
+            this.editingHandler();
         }
     }
 
+    closeEdit = ({key}) => (key === 'Enter') && this.editingHandler();
+
     showDefaultTask = () => {
         const {task, taskId, statusHandler, removeTask} = this.props,
-        {status, text} = task,
-        taskClassName = (status === 'active') ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text--completed';
+            {status, text} = task,
+            taskClassName = (status === 'active') ? 'todo-list__task-text' : 'todo-list__task-text todo-list__task-text--completed';
 
         return (
             <div className="todo-list__content">
@@ -53,7 +51,7 @@ export default class ToDoItem extends React.Component {
                     onClick={() => statusHandler(taskId)}
                 />
                 <label className={taskClassName}>
-                    <span onDoubleClick={this.editingTaskHandler}>{text}</span>
+                    <span onDoubleClick={this.editingHandler}>{text}</span>
                 </label>
                 <button 
                     className="remove"
@@ -64,28 +62,18 @@ export default class ToDoItem extends React.Component {
     };
 
     showEditingTask = () => {
-        const {taskData} = this.state;
-
         return (
             <label>
                 <input 
                     type="text"
                     className="todo-item__editing"
-                    onChange={this.editTask}
+                    onChange={({target}) => this.setState({ edtingTaskText: target.value })}
                     onKeyPress={this.closeEdit}
-                    value={taskData}
+                    value={this.state.edtingTaskText}
                 />
             </label>
         );
     };
-
-    editingTaskHandler = () => {
-        const { task, taskId, editTask } = this.props,
-            {editing} = this.state;
-
-        this.setState({editing: !editing})
-        editTask(task, taskId);
-    }
     
     render() {
         const {editing} = this.state;
