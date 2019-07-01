@@ -41,7 +41,7 @@ export default class NewToDo extends Component {
       const { text } = currentTask;
       const { tasksLength } = this.props;
       const { changeStatusToAllTasks, allTasksIsCompleted } = this.props;
-      const pointerClassName = allTasksIsCompleted ? 'pointer-wrapper' : 'pointer-wrapper pointer-wrapper--checked';
+      const pointerClassName = !allTasksIsCompleted ? 'pointer-wrapper' : 'pointer-wrapper pointer-wrapper--checked';
 
       return (
         <div className="new-todo">
