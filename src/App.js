@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header';
 import NewToDo from './components/NewToDo';
@@ -6,17 +6,19 @@ import ToDoList from './components/ToDoList';
 import Footer from './components/Footer';
 
 class App extends Component {
-  
   state = {
     tasks: [],
-    showMode: 'all'
+    showMode: '',
   }
 
   componentDidMount() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')),
-    showMode = localStorage.getItem('showMode');
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    const showMode = localStorage.getItem('showMode');
     if (tasks) {
       this.setState({ tasks, showMode });
+    }
+    if (!showMode) {
+      this.setState({ showMode: 'all' });
     }
   }
 
@@ -26,97 +28,87 @@ class App extends Component {
     }
   }
 
-  addTask = task => {
-    const {tasks} = this.state;
+  addTask = (task) => {
+    const { tasks } = this.state;
     tasks.push(task);
-    
+
     this.setState({ tasks });
   };
 
-  removeTask = taskId => {
-    const {tasks} = this.state,
-      newTasks = tasks.filter(task => task.id !== taskId);
-    
-    
+  removeTask = (taskId) => {
+    const { tasks } = this.state;
+    const newTasks = tasks.filter(task => task.id !== taskId);
+
+
     this.setState({
-      tasks: newTasks
+      tasks: newTasks,
     });
   };
 
-  statusHandler = taskId => {
-    const {tasks} = this.state,
-      newTasks = tasks.map(task => {
-
+  statusHandler = (taskId) => {
+    const { tasks } = this.state;
+    const newTasks = tasks.map((task) => {
       if (taskId === task.id) {
-        (task.status === 'completed') ? task.status = 'active': task.status = 'completed';
+        task.status = (task.status === 'completed') ? 'active' : 'completed';
       }
-
       return task;
     });
 
     this.setState({
-      tasks: newTasks
+      tasks: newTasks,
     });
   };
 
   modeHandler = showMode => this.setState({ showMode });
 
   setDataToLocalStorage = () => {
-    const {tasks, showMode} = this.state;
+    const { tasks, showMode } = this.state;
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('showMode', showMode);
   };
 
-  markHandler = () => {
-    const {tasks} = this.state,
-      isActive = tasks.some(task => task.status === 'active');
+  changeStatusToAllTasks = () => {
+    const { tasks } = this.state;
+    const isActive = tasks.some(task => task.status === 'active');
 
     if (isActive) {
       tasks.forEach(task => ((task.status = 'completed'), task));
-    }
-    else {
+    } else {
       tasks.forEach(task => ((task.status = 'active'), task));
     }
 
-    this.setState({tasks});
+    this.setState({ tasks });
   }
 
   removeTasks = () => {
-    const {tasks} = this.state,
-      activeTasks = tasks.filter(task => task.status !== 'completed');
+    const { tasks } = this.state;
+    const activeTasks = tasks.filter(task => task.status !== 'completed');
 
     this.setState({
-      tasks: activeTasks
+      tasks: activeTasks,
     });
   }
 
   updateEditedTasks = (newText, id) => {
-    const {tasks} = this.state;
-    tasks.forEach(task => {
-      if (task.id === id) {
-        task.text = newText;
-      }
-    });
+    const { tasks } = this.state;
+    tasks.find(task => task.id === id).text = newText;
 
-    this.setState( {tasks} );
+    this.setState({ tasks });
   }
 
   getActiveItems = () => {
-    const {tasks} = this.state;
-    if (tasks.length) {
-      return tasks.filter(task => task.status === 'active');
-    }
-    return [];
+    const { tasks } = this.state;
+    return (tasks.length) ? tasks.filter(task => task.status === 'active') : [];
   };
 
   render() {
-    const {tasks, showMode} = this.state,
-      activeItems = this.getActiveItems(),
-      activeItemsCount = (activeItems && activeItems.length) || 0,
-      isAreAnyCompleted =(tasks && tasks.some(task => task.status === 'completed')) || false,
-      tasksLength = (tasks && tasks.length) || 0;
-      
+    const { tasks, showMode } = this.state;
+    const activeItems = this.getActiveItems();
+    const activeItemsCount = activeItems.length;
+    const isAreAnyCompleted = tasks.some(task => task.status === 'completed');
+    const tasksLength = tasks.length;
+
     return (
       <section className="todo-app">
         <Header />
@@ -124,9 +116,10 @@ class App extends Component {
           <NewToDo
             addTask={this.addTask}
             tasksLength={tasksLength}
-            markHandler={this.markHandler}
+            changeStatusToAllTasks={this.changeStatusToAllTasks}
           />
-          {tasks &&
+          {tasks
+          && (
           <ToDoList
             tasks={tasks}
             removeTask={this.removeTask}
@@ -134,20 +127,23 @@ class App extends Component {
             showMode={showMode}
             updateEditedTasks={this.updateEditedTasks}
           />
+          )
           }
         </section>
-        {(!!activeItemsCount || !!tasksLength) && 
-        <Footer 
+        {(!!activeItemsCount || !!tasksLength)
+        && (
+        <Footer
           modeHandler={this.modeHandler}
           showMode={showMode}
           items={activeItemsCount}
           removeTasks={this.removeTasks}
           isAreAnyCompleted={isAreAnyCompleted}
         />
+        )
         }
       </section>
     );
-  };
+  }
 }
 
 export default App;
