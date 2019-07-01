@@ -9,16 +9,27 @@ class App extends Component {
   state = {
     tasks: [],
     showMode: '',
+    allTasksIsCompleted: false
   }
 
   componentDidMount() {
-    const tasks = JSON.parse(localStorage.getItem('tasks'));
-    const showMode = localStorage.getItem('showMode');
-    if (tasks) {
-      this.setState({ tasks, showMode });
+    const appData = localStorage.getItem('appData');
+
+    if (appData) {
+      const { showMode, tasks, allTasksIsCompleted } = JSON.parse(appData);
+
+      this.setState({ 
+        tasks,
+        showMode,
+        allTasksIsCompleted
+      });
     }
-    if (!showMode) {
-      this.setState({ showMode: 'all' });
+    else {
+      this.setState({
+        tasks: [],
+        showMode: 'all',
+        allTasksIsCompleted: false 
+      });
     }
   }
 
@@ -27,6 +38,18 @@ class App extends Component {
       this.setDataToLocalStorage();
     }
   }
+
+  setDataToLocalStorage = () => {
+    const { tasks, showMode, allTasksIsCompleted } = this.state;
+
+    const appData = {
+      tasks,
+      showMode,
+      allTasksIsCompleted
+    };
+
+    localStorage.setItem('appData', JSON.stringify(appData));
+  };
 
   addTask = (task) => {
     const { tasks } = this.state;
@@ -61,15 +84,8 @@ class App extends Component {
 
   modeHandler = showMode => this.setState({ showMode });
 
-  setDataToLocalStorage = () => {
-    const { tasks, showMode } = this.state;
-
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    localStorage.setItem('showMode', showMode);
-  };
-
   changeStatusToAllTasks = () => {
-    const { tasks } = this.state;
+    const { tasks, allTasksIsCompleted } = this.state;
     const isActive = tasks.some(task => task.status === 'active');
 
     if (isActive) {
@@ -78,7 +94,10 @@ class App extends Component {
       tasks.forEach(task => ((task.status = 'active'), task));
     }
 
-    this.setState({ tasks });
+    this.setState({ 
+      tasks,
+      allTasksIsCompleted: !allTasksIsCompleted
+    });
   }
 
   removeTasks = () => {
@@ -103,7 +122,7 @@ class App extends Component {
   };
 
   render() {
-    const { tasks, showMode } = this.state;
+    const { tasks, showMode, allTasksIsCompleted } = this.state;
     const activeItems = this.getActiveItems();
     const activeItemsCount = activeItems.length;
     const isAreAnyCompleted = tasks.some(task => task.status === 'completed');
@@ -117,6 +136,7 @@ class App extends Component {
             addTask={this.addTask}
             tasksLength={tasksLength}
             changeStatusToAllTasks={this.changeStatusToAllTasks}
+            allTasksIsCompleted={allTasksIsCompleted}
           />
           {tasks
           && (

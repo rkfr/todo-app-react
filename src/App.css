@@ -51,7 +51,7 @@ li {
     justify-content: space-between;    
 }
 
-.new-todo__label_button {
+.pointer-wrapper {
     flex-basis: 45px;
 }
 
@@ -72,14 +72,14 @@ li {
     background: transparent;
     font-size: 24px;
     outline: none;
-    color: #4d4d4d;
+    color: #4d4d4d;;
 }
 
-.new-todo__label_button {
+.pointer-wrapper {
     position: relative;
 }
 
-.new-todo__label_button::before {
+.pointer-wrapper::before {
     content: '❯';
     position: absolute;
     top: 25%;
@@ -92,9 +92,13 @@ li {
     font-style: italic;
 }
 
-.new-todo__label_button::before,
+.pointer-wrapper::before,
 .new-todo__item_input::placeholder {
     color: #e6e6e6;
+}
+
+.pointer-wrapper.pointer-wrapper--checked::before {
+    color: #4d4d4d;
 }
 
 /* todo-list */

@@ -40,16 +40,20 @@ export default class NewToDo extends Component {
       const { currentTask } = this.state;
       const { text } = currentTask;
       const { tasksLength } = this.props;
-      const { changeStatusToAllTasks } = this.props;
+      const { changeStatusToAllTasks, allTasksIsCompleted } = this.props;
+      const pointerClassName = allTasksIsCompleted ? 'pointer-wrapper' : 'pointer-wrapper pointer-wrapper--checked';
 
       return (
         <div className="new-todo">
           <form>
             {!!tasksLength
                     && (
-                    <label className="new-todo__label new-todo__label_button">
+                    <label 
+                      className={pointerClassName}
+                      onMouseDown={e => e.preventDefault()}
+                      >
                       <input
-                        className="new-todo__item new-todo__item_button"
+                        className="new-todo__item"
                         type="button"
                         value=""
                         onClick={changeStatusToAllTasks}
